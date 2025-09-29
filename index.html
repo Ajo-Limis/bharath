@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Know Your Relationship with Flames </title>
+    
+    <style>
+        body {
+            background: #f7f7fa;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box {
+            background: #fff;
+            padding: 2rem 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+            text-align: center;
+            min-width: 320px;
+        }
+        h1 {
+            color: #e74c3c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            letter-spacing: 2px;
+        }
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 0.7rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus {
+            border-color: #e74c3c;
+            outline: none;
+        }
+        button[type="submit"] {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 0.7rem 2rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: background 0.2s;
+        }
+        button[type="submit"]:hover {
+            background: #c0392b;
+        }
+        #result {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Flames</h1>
+        <div class="input-group">
+            <input type="text" id="name1" placeholder="Enter first name">
+        </div>
+        <div class="input-group">
+            <input type="text" id="name2" placeholder="Enter second name">
+        </div>
+        <button type="submit" id="flamesBtn">Check Relationship</button>
+        <div id="result"></div>
+    </div>
+    <script src="flames.js"></script>
+</body>
+</html>
+<script>
+function flames(name1, name2) {
+    name1 = name1.replace(/\s+/g, '').toLowerCase();
+    name2 = name2.replace(/\s+/g, '').toLowerCase();
+
+    let name1Arr = name1.split('');
+    let name2Arr = name2.split('');
+
+    for (let char of name1) {
+        let idx = name2Arr.indexOf(char);
+        if (idx !== -1) {
+            name1Arr.splice(name1Arr.indexOf(char), 1);
+            name2Arr.splice(idx, 1);
+        }
+    }
+
+    let count = name1Arr.length + name2Arr.length;
+    let flamesArr = ["Friend", "Love", "Affection", "Marriage", "Enemy", "Sister"];
+
+    while (flamesArr.length > 1) {
+        let idx = (count % flamesArr.length) - 1;
+        if (idx >= 0) {
+            flamesArr = flamesArr.slice(idx + 1).concat(flamesArr.slice(0, idx));
+        } else {
+            flamesArr = flamesArr.slice(0, flamesArr.length - 1);
+        }
+    }
+
+    return flamesArr[0];
+}
+
+// Get user input from HTML and display result
+document.getElementById('flamesBtn').addEventListener('click', function() {
+    const name1 = document.getElementById('name1').value;
+    const name2 = document.getElementById('name2').value;
+    const result = flames(name1, name2);
+    document.getElementById('result').textContent = `The relationship status is: ${result}`;
+});
+</script>
